@@ -1,3 +1,5 @@
+using GeradorTestes.Dominio.ModuloDisciplina;
+
 namespace GeradorTestes.WinApp
 {
     internal static class Program
@@ -12,6 +14,21 @@ namespace GeradorTestes.WinApp
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             Application.Run(new TelaPrincipalForm());
+
+            GeradorDeTestesDBContext dBContext = new GeradorDeTestesDBContext();
+
+            List<Disciplina> disciplinas = dBContext.Disciplinas.Include(x => x.Materias).ToList();
+
+            foreach (var d in disciplinas)
+            {
+                Console.WriteLine(d);
+
+                foreach (var m in d.Materias)
+                {
+                    Console.WriteLine(m);
+                }
+            }
+            Console.ReadLine();
         }
     }
 }
